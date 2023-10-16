@@ -1,22 +1,17 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	"log"
-	"net/http"
-	"os"
+	"github.com/baijugoradia/gohelloworld/application"
 )
 
 func main() {
-	fmt.Println(os.Getenv("name"))
-	router := chi.NewRouter()
-	router.Use(middleware.Logger)
+	fmt.Println("Server Starting")
+	app := new(application.App)
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-
-		w.Write([]byte("welcome"))
-	})
-	log.Fatal(http.ListenAndServe(":3000", router))
+	err := app.Start(context.TODO())
+	if err != nil {
+		fmt.Errorf("Some issue with serve : %s", err)
+	}
 }
